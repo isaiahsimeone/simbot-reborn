@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+group 'sim.bot'
+version '1.0-SNAPSHOT'
+
+repositories {
+    maven {
+        url 'https://jitpack.io'
+    }
+    mavenCentral()
+}
+
+
+dependencies {
+    implementation 'com.github.walkyst:lavaplayer-fork:1.3.98'
+    implementation 'org.javacord:javacord:3.5.0'
+}
