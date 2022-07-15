@@ -2,16 +2,9 @@ package sim.bot;
 
 import com.sedmelluq.discord.lavaplayer.player.*;
 import com.sedmelluq.discord.lavaplayer.source.soundcloud.SoundCloudAudioSourceManager;
-import com.sedmelluq.discord.lavaplayer.source.vimeo.VimeoAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
-
 import org.javacord.api.*;
-import org.javacord.api.audio.AudioSource;
-import sim.bot.audio.TrackScheduler;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Simbot {
 
@@ -39,6 +32,9 @@ public class Simbot {
         });
     }
 
+    /*
+     * Register soundcloud and youtube as audio sources
+     */
     private static void register_sources(AudioPlayerManager manager) {
         manager.registerSourceManager(new YoutubeAudioSourceManager());
         manager.registerSourceManager(SoundCloudAudioSourceManager.createDefault());

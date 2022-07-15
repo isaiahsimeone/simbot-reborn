@@ -7,9 +7,6 @@ import java.util.ArrayList;
 
 
 public interface Executable {
-
-
     void execute(SimPlayer player, MessageCreateEvent mce, ArrayList<String> args);
-
     String help();
 }

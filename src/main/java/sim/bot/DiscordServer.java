@@ -20,6 +20,9 @@ public class DiscordServer {
         this.player = new SimPlayer(api, manager);
     }
 
+    /*
+     * Process the command (if one is specified) in the message event
+     */
     public void process_message(MessageCreateEvent mce) {
         String message = mce.getMessageContent();
         if (!message.startsWith("-"))
