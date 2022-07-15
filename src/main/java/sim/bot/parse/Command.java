@@ -7,8 +7,8 @@ import java.util.Arrays;
 import static sim.bot.parse.CommandType.*;
 
 public class Command {
-    private CommandType type;
-    private ArrayList<String> args;
+    private final CommandType type;
+    private final ArrayList<String> args;
 
     public Command(CommandType type, ArrayList<String> args) {
         this.type = type;
@@ -23,17 +23,27 @@ public class Command {
         return args;
     }
 
-    public static Command parse_command(String command) {
+    public static Command parse_command(String cmd) {
         ArrayList<String> args = new ArrayList<>(8);
+        StringBuilder command_specifier = new StringBuilder();
 
-        if (command.charAt(0) != '-')
-            return new Command(UNKNOWN, new ArrayList<>(0));
+        /* Replace multiple spaces with single space */
+        String command = cmd.trim().replaceAll(" +", " ");
 
-        args.addAll(Arrays.asList(command.split("\\s+"))); // Split at whitespace
+        /* Must start with '-' */
+        if (!command.startsWith("-") && !command.startsWith(" -"))
+            return new Command(UNKNOWN, args);
 
-        CommandType type = get_command_type(args.get(0).substring(1)); // Omit leading '-'
+        /* Remove leading '-' and leading spaces */
+        command = command.replaceFirst("[ ]?-[ ]?", "");
 
-        // parse here
+        CommandType type = get_command_type(command.split(" ")[0]);
+        args.addAll(Arrays.asList(command.split(" ")));
+        /* Remove command specifier from arg list */
+        args.remove(0);
+
+        System.out.println("type = " + type + ", args = " + args);
+
         return new Command(type, args);
     }
 }

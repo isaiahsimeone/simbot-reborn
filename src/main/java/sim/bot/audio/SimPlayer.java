@@ -8,17 +8,15 @@ import org.javacord.api.audio.AudioSource;
 import org.javacord.api.entity.channel.ServerVoiceChannel;
 
 public class SimPlayer {
-    private DiscordApi api;
-    private AudioPlayerManager manager;
-    private AudioPlayer player;
-    private AudioSource source;
+    private final AudioPlayerManager manager;
+    private final AudioPlayer player;
+    private final AudioSource source;
     private AudioConnection audio_connection;
-    private TrackScheduler sched;
+    private final TrackScheduler sched;
     private ServerVoiceChannel voice_channel;
     private boolean is_init;
 
     public SimPlayer(DiscordApi api, AudioPlayerManager manager) {
-        this.api = api;
         this.manager = manager;
         this.player = manager.createPlayer();
         this.source = new sim.bot.audio.AudioSource(api, player);
@@ -46,5 +44,22 @@ public class SimPlayer {
         return is_init;
     }
 
+    public void destroy() {
+        is_init = false;
+        voice_channel.disconnect();
+        audio_connection.close();
+    }
+
+    public AudioPlayer get_player() {
+        return player;
+    }
+
+    public AudioPlayerManager get_audio_manager() {
+        return manager;
+    }
+
+    public TrackScheduler get_track_scheduler() {
+        return sched;
+    }
 
 }
