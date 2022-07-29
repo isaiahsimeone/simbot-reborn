@@ -19,7 +19,6 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     public void enqueue(AudioTrack track) {
-        // If something's playing, queue this track
         if (!player.startTrack(track, true) && queue.size() <= 1000)
             queue.offer(track);
     }
