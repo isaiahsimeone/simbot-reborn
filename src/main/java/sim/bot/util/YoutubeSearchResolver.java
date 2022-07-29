@@ -3,6 +3,8 @@ package sim.bot.util;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,12 +26,15 @@ public class YoutubeSearchResolver {
         return songID;
     }
 
-    // Given some potential youtube video name, find the first video
-    // in the result list and return a youtube link to it
+    /* Given some potential youtube video name, find the first video
+     * in the result list and return a youtube link to it
+     */
     public static String get_identifier_from_name(String query) {
         String targetVidID;
         try {
-            query = query.replace(" ", "+"); // proper format for URL
+            /* URL Encode */
+            query = URLEncoder.encode(query, StandardCharsets.UTF_8);
+
             Document doc = Jsoup.connect("https://www.youtube.com/results?search_query=" + query)
                     .userAgent("Mozilla")
                     .get();
@@ -38,11 +43,10 @@ public class YoutubeSearchResolver {
             Pattern videoIDPattern = Pattern.compile("/watch\\?v=\\S{11}");
             Matcher m = videoIDPattern.matcher(pageSrc);
 
-            if (m.find()) {
+            if (m.find())
                 targetVidID = m.group(0);
-            } else {
+            else
                 targetVidID = "failure";
-            }
 
         } catch (Exception e) {
             e.printStackTrace();
