@@ -12,7 +12,10 @@ public class Simbot {
      * Bot launch
      */
     public static void main(String[] args) {
+        System.out.println("Launching...");
         String api_token = System.getenv("simbottoken");
+        if (api_token == null)
+            System.err.println("No API token specified");
 
         DiscordApi d_api = new DiscordApiBuilder().setToken(api_token).login().join();
 
@@ -30,6 +33,7 @@ public class Simbot {
             /* Pass message to the discord server handler from which the message originated */
             server_map.get(server_uid).process_message(message);
         });
+        System.out.println("Exiting...");
     }
 
     /*
