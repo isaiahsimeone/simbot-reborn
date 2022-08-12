@@ -40,13 +40,17 @@ public class PlayCmd implements Executable {
             @Override
             public void noMatches() {
                 System.err.println("Found no matches for specified song");
+                if (player.get_verbosity() > 0)
+                    mce.getMessage().reply("No matches were found for this song");
                 /* React to message */
                 mce.getMessage().addReaction(Emoji.RED_X.get_char_code());
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
-                System.err.println("Failed to load song");
+                System.err.println("Failed to load song" + exception.toString());
+                if (player.get_verbosity() > 0)
+                    mce.getMessage().reply("Failed to load song with exception:\n" + exception.toString());
                 /* React to message */
                 mce.getMessage().addReaction(Emoji.RED_X.get_char_code());
             }

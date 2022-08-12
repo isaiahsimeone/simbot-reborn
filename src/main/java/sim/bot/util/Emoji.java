@@ -8,7 +8,10 @@ public enum Emoji {
     THUMBS_UP("\uD83D\uDC4D"),
     ONE_TWO_THREE_FOUR("\uD83D\uDD22"),
     FAST_FORWARD("⏩"),
-    REWIND("⏪");
+    REWIND("⏪"),
+    BOWING("\uD83D\uDE47\u200D♂️"),
+    ANGRY("\uD83D\uDE21"),
+    FREE("\uD83C\uDD93");
 
     public final String charcode;
 

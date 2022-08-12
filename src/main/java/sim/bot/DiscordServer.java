@@ -7,6 +7,7 @@ import org.javacord.api.event.message.MessageCreateEvent;
 import sim.bot.audio.SimPlayer;
 import sim.bot.command.*;
 import sim.bot.parse.Command;
+import sim.bot.util.Emoji;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,18 @@ public class DiscordServer {
             return ;
         }
 
+        /* Check master mode */
+        if (player.in_master_mode() && !mce.getMessageAuthor().isBotOwner()) {
+            mce.getMessage().reply("I serve only Sim");
+            return ;
+        }
+
         ArrayList<String> args = command.get_args();
+
+        /* Someone trying to say simbot? */
+        for (String s : args)
+            if (s.toLowerCase().equals("simbot"))
+                mce.getMessage().addReaction(Emoji.ANGRY.get_char_code());
 
         /* Execute */
         switch (command.get_type()) {
@@ -70,6 +82,11 @@ public class DiscordServer {
             case REWIND:
                 (new RewindCmd()).execute(player, mce, args);
                 break;
+            case MASTER:
+                (new MasterCmd()).execute(player, mce, args);
+                break;
+            case VERBOSE:
+                (new VerbosityCmd()).execute(player, mce, args);
             case UNKNOWN:
             /* FALLTHROUGH */
             default:

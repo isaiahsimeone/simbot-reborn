@@ -15,6 +15,8 @@ public class SimPlayer {
     private final TrackScheduler sched;
     private ServerVoiceChannel voice_channel;
     private boolean is_init;
+    private boolean in_master_mode;
+    private int verbosity;
 
     public SimPlayer(DiscordApi api, AudioPlayerManager manager) {
         this.manager = manager;
@@ -24,6 +26,8 @@ public class SimPlayer {
         player.addListener(sched);
         this.is_init = false;
         this.voice_channel = null;
+        this.in_master_mode = false;
+        this.verbosity = 0;
     }
 
     public boolean is_initialised() {
@@ -60,6 +64,22 @@ public class SimPlayer {
 
     public TrackScheduler get_track_scheduler() {
         return sched;
+    }
+
+    public void toggle_master_mode() {
+        in_master_mode = !in_master_mode;
+    }
+
+    public boolean in_master_mode() {
+        return in_master_mode;
+    }
+
+    public int get_verbosity() {
+        return verbosity;
+    }
+
+    public void set_verbosity(int verbosity) {
+        this.verbosity = verbosity;
     }
 
 }

@@ -12,6 +12,8 @@ public enum CommandType {
     FASTFORWARD(7),
     REWIND(8),
     NOWPLAYING(9),
+    MASTER(10),
+    VERBOSE(11),
     UNKNOWN(-1);
 
     private int id;
@@ -30,7 +32,9 @@ public enum CommandType {
             {"queuelist", "ql", "qlist", "list"}, // List queue
             {"fastforward", "ff"}, // Fast forward
             {"rewind", "rw"}, // Rewind
-            {"nowplaying", "whatsong", "currentsong", "whatthis"} // Get playing
+            {"nowplaying", "whatsong", "currentsong", "whatthis"}, // Get playing
+            {"iamyourmaster", "iaym"},
+            {"verbose", "verbosity", "verboseness"}
     };
 
 
