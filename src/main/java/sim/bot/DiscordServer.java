@@ -1,12 +1,16 @@
 package sim.bot;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.source.soundcloud.SoundCloudAudioSourceManager;
+import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.channel.ServerVoiceChannel;
 import org.javacord.api.event.message.MessageCreateEvent;
 import sim.bot.audio.SimPlayer;
 import sim.bot.command.*;
 import sim.bot.parse.Command;
+import sim.bot.rust.RustManager;
 import sim.bot.util.Emoji;
 
 import java.util.ArrayList;
@@ -15,10 +19,15 @@ import java.util.ArrayList;
 public class DiscordServer {
 
     private final SimPlayer player;
+    private final RustManager rust_manager;
     private ServerVoiceChannel voice_channel;
 
-    public DiscordServer(DiscordApi api, AudioPlayerManager manager) {
-        this.player = new SimPlayer(api, manager);
+    public DiscordServer(DiscordApi api) {
+        AudioPlayerManager player_manager = new DefaultAudioPlayerManager();
+        register_sources(player_manager);
+        this.player = new SimPlayer(api, player_manager);
+
+        this.rust_manager = new RustManager(api);
     }
 
     /*
@@ -94,9 +103,20 @@ public class DiscordServer {
 
     }
 
+    /*
+     * Determines whether the user who sent the message is connected
+     * to a voice channel
+     */
     private boolean author_is_connected_to_vc(MessageCreateEvent mce) {
         return mce.getMessageAuthor().getConnectedVoiceChannel().isPresent();
     }
 
+    /*
+     * Register soundcloud and youtube as audio sources
+     */
+    private static void register_sources(AudioPlayerManager manager) {
+        manager.registerSourceManager(new YoutubeAudioSourceManager());
+        manager.registerSourceManager(SoundCloudAudioSourceManager.createDefault());
+    }
 
 }
