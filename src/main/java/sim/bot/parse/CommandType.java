@@ -13,7 +13,7 @@ public enum CommandType {
     REWIND(8),
     NOWPLAYING(9),
     MASTER(10),
-    VERBOSE(11),
+    DEBUG(11),
     UNKNOWN(-1);
 
     private int id;

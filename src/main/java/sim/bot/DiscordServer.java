@@ -142,8 +142,9 @@ public class DiscordServer {
             case MASTER:
                 (new MasterCmd()).execute(player, mce, args);
                 break;
-            case VERBOSE:
+            case DEBUG:
                 (new DebugCmd()).execute(player, mce, args);
+                break;
             case UNKNOWN:
                 mce.getMessage().addReaction(Emoji.GREY_QUESTION.get_char_code());
             /* FALLTHROUGH */
