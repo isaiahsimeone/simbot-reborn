@@ -2,6 +2,7 @@ package sim.bot.command;
 
 import org.javacord.api.event.message.MessageCreateEvent;
 import sim.bot.audio.SimPlayer;
+import sim.bot.util.Emoji;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ public class StopCmd implements Executable {
             player.get_track_scheduler().next_track(); // Drop current track
             player.get_player().setPaused(false);
             player.destroy();
+            mce.getMessage().addReaction(Emoji.WAVE.get_char_code());
         }
     }
 

@@ -50,7 +50,7 @@ public class YoutubeSearchResolver {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return "failure";
+            return e.toString();
         }
 
         return "https://www.youtube.com" + targetVidID;

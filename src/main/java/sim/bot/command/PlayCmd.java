@@ -18,12 +18,18 @@ public class PlayCmd implements Executable {
 
         String song_url = YoutubeSearchResolver.resolve_if_required(song_name_raw);
 
-        System.out.println("Resolved " + song_name_raw + " to " + song_url);
+        if (song_url.contains("Exception"))
+            player.write_verbose_message("Got exception: " + song_url);
+        if (song_name_raw == song_url)
+            player.write_verbose_message("Song already a URL so does not need resolution");
+        else
+            player.write_verbose_message("Resolved '" + song_name_raw + "' to " + song_url);
 
         player.get_audio_manager().loadItem(song_url, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
                 player.get_track_scheduler().enqueue(track);
+                player.write_verbose_message("Track: '" + track.getInfo().title + "' enqueued");
                 /* React to message */
                 mce.getMessage().addReaction(Emoji.THUMBS_UP.get_char_code());
             }
@@ -32,6 +38,7 @@ public class PlayCmd implements Executable {
             public void playlistLoaded(AudioPlaylist playlist) {
                 for (AudioTrack track : playlist.getTracks())
                     player.get_track_scheduler().enqueue(track);
+                player.write_verbose_message("Loaded playlist with " + playlist.getTracks().size() + " tracks");
                 /* React to message */
                 mce.getMessage().addReaction(Emoji.THUMBS_UP.get_char_code());
                 mce.getMessage().addReaction(Emoji.ONE_TWO_THREE_FOUR.get_char_code());
@@ -39,18 +46,14 @@ public class PlayCmd implements Executable {
 
             @Override
             public void noMatches() {
-                System.err.println("Found no matches for specified song");
-                if (player.get_verbosity() > 0)
-                    mce.getMessage().reply("No matches were found for this song");
+                player.write_verbose_message("No matches were found for this song");
                 /* React to message */
                 mce.getMessage().addReaction(Emoji.RED_X.get_char_code());
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
-                System.err.println("Failed to load song" + exception.toString());
-                if (player.get_verbosity() > 0)
-                    mce.getMessage().reply("Failed to load song with exception:\n" + exception.toString());
+                player.write_verbose_message("Failed to load song with exception:\n" + exception.toString());
                 /* React to message */
                 mce.getMessage().addReaction(Emoji.RED_X.get_char_code());
             }
