@@ -26,7 +26,6 @@ public class DiscordServer {
     class InactivityTimeout extends TimerTask {
         @Override
         public void run() {
-            System.out.println("check");
             if (player.is_initialised() && player.is_inactive()) {
                 player.write_verbose_message("I am inactive. Goodbye");
                 player.get_track_scheduler().dump_queue();
@@ -146,9 +145,9 @@ public class DiscordServer {
                 (new DebugCmd()).execute(player, mce, args);
                 break;
             case UNKNOWN:
-                mce.getMessage().addReaction(Emoji.GREY_QUESTION.get_char_code());
             /* FALLTHROUGH */
             default:
+                mce.getMessage().addReaction(Emoji.GREY_QUESTION.get_char_code());
         }
 
     }

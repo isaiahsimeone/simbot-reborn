@@ -34,7 +34,7 @@ public enum CommandType {
             {"rewind", "rw"}, // Rewind
             {"nowplaying", "whatsong", "currentsong", "whatthis"}, // Get playing
             {"iamyourmaster", "iaym"},
-            {"debug", "sdb", "deb"}
+            {"debug", "sdb"}
     };
 
 

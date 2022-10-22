@@ -16,6 +16,6 @@ public class DebugCmd implements Executable {
 
     @Override
     public String help() {
-        return "- [debug | sdb | deb]";
+        return "- [debug | sdb]";
     }
 }
