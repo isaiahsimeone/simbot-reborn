@@ -54,9 +54,9 @@ public class DiscordServer {
             player.write_verbose_message(event.getUser() + " left a voice channel");
 
             /*
-             * Disregard if someone other than the bot is leaving. But leave if no one else is in the channel
+             * Disregard if someone other than the bot is leaving.
              */
-            if (!event.getUser().isBot() && event.getChannel().getConnectedUsers().size() > 1)
+            if (!event.getUser().isBot())
                 return ;
 
             player.write_verbose_message("Someone just moved me or they called stop. So, I am destroying myself");
