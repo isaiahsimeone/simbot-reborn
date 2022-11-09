@@ -20,7 +20,7 @@ public class PlayCmd implements Executable {
 
         if (song_url.contains("Exception"))
             player.write_verbose_message("Got exception: " + song_url);
-        if (song_name_raw == song_url)
+        if (song_name_raw.equals(song_url))
             player.write_verbose_message("Song already a URL so does not need resolution");
         else
             player.write_verbose_message("Resolved '" + song_name_raw + "' to " + song_url);
@@ -53,7 +53,7 @@ public class PlayCmd implements Executable {
 
             @Override
             public void loadFailed(FriendlyException exception) {
-                player.write_verbose_message("Failed to load song with exception:\n" + exception.toString());
+                player.write_verbose_message("Failed to load song with exception:\n" + exception.getMessage());
                 /* React to message */
                 mce.getMessage().addReaction(Emoji.RED_X.get_char_code());
             }
