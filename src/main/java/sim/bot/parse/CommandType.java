@@ -16,6 +16,7 @@ public enum CommandType {
     NOWPLAYING(9),
     MASTER(10),
     DEBUG(11),
+    WHERE_DROP(12),
     UNKNOWN(-1);
 
     private final int id;
@@ -30,6 +31,8 @@ public enum CommandType {
             put("pla", PLAY.id);
             put("pl", PLAY.id);
             put("p", PLAY.id);
+            put("P", PLAY.id);
+            put("PLAY", PLAY.id);
             /* Stop */
             put("stop", STOP.id);
             put("s", STOP.id);
@@ -39,12 +42,15 @@ public enum CommandType {
             put("x", STOP.id);
             put("shutup", STOP.id);
             put("fuckoff", STOP.id);
+            put("X", STOP.id);
+            put("DC", STOP.id);
             /* Pause */
             put("pause", PAUSE.id);
             put("hold", PAUSE.id);
             put("wait", PAUSE.id);
             put("resume", PAUSE.id);
             put("res", PAUSE.id);
+            put("PAUSE", PAUSE.id);
             /* Queue */
             put("q", QUEUE.id);
             put("queue", QUEUE.id);
@@ -55,11 +61,13 @@ public enum CommandType {
             put("n", SKIP.id);
             put("thissongshit", SKIP.id);
             put("nextsong", SKIP.id);
+            put("SKIP", SKIP.id);
             /* Now playing */
             put("queuelist", NOWPLAYING.id);
             put("ql", NOWPLAYING.id);
             put("qlist", NOWPLAYING.id);
             put("list", NOWPLAYING.id);
+            put("QL", NOWPLAYING.id);
             /* Fast foward */
             put("fastforward", FASTFORWARD.id);
             put("ff", FASTFORWARD.id);
@@ -77,6 +85,9 @@ public enum CommandType {
             /* Debugger */
             put("debug", DEBUG.id);
             put("sdb", DEBUG.id);
+            /* Drop */
+            put("wherewedropping", WHERE_DROP.id);
+            put("wheredrop", WHERE_DROP.id);
     }};
 
     static CommandType get_command_type(String command) {
