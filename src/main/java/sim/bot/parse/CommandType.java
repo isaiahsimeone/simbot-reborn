@@ -3,7 +3,6 @@ package sim.bot.parse;
 import java.util.HashMap;
 
 public enum CommandType {
-    // Ordering important
     PLAY(0),
     STOP(1),
     PAUSE(2),
