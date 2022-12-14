@@ -21,7 +21,7 @@ public class DiscordServer {
 
     private final SimPlayer player;
     private Server server;
-    private final long INACTIVITY_CHECK_PERIOD = 1000 * 60 * 45; // Check every 45 minutes
+    private final long SIMBOT_ID = 881509848838180884L;
 
     class InactivityTimeout extends TimerTask {
         @Override
@@ -56,7 +56,7 @@ public class DiscordServer {
             /*
              * Disregard if someone other than the bot is leaving.
              */
-            if (!event.getUser().isBot())
+            if (event.getUser().getId() != SIMBOT_ID)
                 return ;
 
             player.write_verbose_message("Someone just moved me or they called stop. So, I am destroying myself");
@@ -69,7 +69,8 @@ public class DiscordServer {
         /* Inactivity timer */
         Timer timer = new Timer();
         TimerTask task = new InactivityTimeout();
-        timer.schedule(task, 0, INACTIVITY_CHECK_PERIOD);
+        // Check every 45 minutes
+        timer.schedule(task, 0, 1000 * 60 * 45);
     }
 
     /*
