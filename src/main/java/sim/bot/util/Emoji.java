@@ -12,6 +12,7 @@ public enum Emoji {
     BOWING("\uD83D\uDE47\u200D♂️"),
     ANGRY("\uD83D\uDE21"),
     WAVE("\uD83D\uDC4B"),
+    UNAMUSED("\uD83D\uDE12"),
     FREE("\uD83C\uDD93");
 
     public final String charcode;

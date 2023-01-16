@@ -79,6 +79,11 @@ public class DiscordServer {
      */
     public void process_message(MessageCreateEvent mce) {
         String message = mce.getMessageContent();
+
+        /* React if someone mentions Keyanuish */
+        if (message.contains("<@70762467227078656>"))
+            mce.getMessage().addReaction(Emoji.UNAMUSED.get_char_code());
+
         if (!message.startsWith("-"))
             return ;
 

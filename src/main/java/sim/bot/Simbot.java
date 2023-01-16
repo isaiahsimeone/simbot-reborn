@@ -1,6 +1,8 @@
 package sim.bot;
 
 import org.javacord.api.*;
+import org.javacord.api.entity.user.UserStatus;
+
 import java.util.HashMap;
 
 public class Simbot {
@@ -15,6 +17,9 @@ public class Simbot {
             System.err.println("No API token specified");
 
         DiscordApi d_api = new DiscordApiBuilder().setToken(api_token).setAllIntents().login().join();
+
+        // Hopefully Keyanuish will notice this...
+        d_api.updateActivity("-keyspeak");
 
         System.out.println(d_api.getStatus());
 
