@@ -16,6 +16,7 @@ public enum CommandType {
     MASTER(10),
     DEBUG(11),
     WHERE_DROP(12),
+    KEYSPEAK(13),
     UNKNOWN(-1);
 
     private final int id;
@@ -87,6 +88,12 @@ public enum CommandType {
             /* Drop */
             put("wherewedropping", WHERE_DROP.id);
             put("wheredrop", WHERE_DROP.id);
+            /* Keyspeak */
+            put("keyspeak", KEYSPEAK.id);
+            put("keysaying", KEYSPEAK.id);
+            put("keyemulate", KEYSPEAK.id);
+            put("keysimulator", KEYSPEAK.id);
+            put("whatissomethingkeywouldsay", KEYSPEAK.id);
     }};
 
     static CommandType get_command_type(String command) {

@@ -71,6 +71,7 @@ public class DiscordServer {
         TimerTask task = new InactivityTimeout();
         // Check every 45 minutes
         timer.schedule(task, 0, 1000 * 60 * 45);
+
     }
 
     /*
@@ -110,45 +111,28 @@ public class DiscordServer {
                 + command.get_type());
         /* Execute */
         switch (command.get_type()) {
-            case PLAY:
             /* FALLTHROUGH */
-            case QUEUE:
+            case PLAY, QUEUE -> {
                 if (!player.is_initialised() && author_is_connected_to_vc(mce))
                     player.initialise(mce.getMessageAuthor().getConnectedVoiceChannel().get());
                 (new PlayCmd()).execute(player, mce, args);
-                break;
-            case STOP:
-                (new StopCmd()).execute(player, mce, args);
-                break;
-            case PAUSE:
+            }
+            case STOP -> (new StopCmd()).execute(player, mce, args);
+
             /* FALLTHROUGH */
-            case RESUME:
-                (new PauseCmd()).execute(player, mce, args);
-                break;
-            case SKIP:
-                (new SkipCmd()).execute(player, mce, args);
-                break;
-            case QUEUELIST:
+            case PAUSE, RESUME -> (new PauseCmd()).execute(player, mce, args);
+            case SKIP -> (new SkipCmd()).execute(player, mce, args);
+
             /* FALLTHROUGH */
-            case NOWPLAYING:
-                (new QueueListCmd()).execute(player, mce, args);
-                break;
-            case FASTFORWARD:
-                (new FastForwardCmd()).execute(player, mce, args);
-                break;
-            case REWIND:
-                (new RewindCmd()).execute(player, mce, args);
-                break;
-            case MASTER:
-                (new MasterCmd()).execute(player, mce, args);
-                break;
-            case DEBUG:
-                (new DebugCmd()).execute(player, mce, args);
-                break;
-            case UNKNOWN:
+            case QUEUELIST, NOWPLAYING -> (new QueueListCmd()).execute(player, mce, args);
+            case FASTFORWARD -> (new FastForwardCmd()).execute(player, mce, args);
+            case REWIND -> (new RewindCmd()).execute(player, mce, args);
+            case MASTER -> (new MasterCmd()).execute(player, mce, args);
+            case DEBUG -> (new DebugCmd()).execute(player, mce, args);
+            case KEYSPEAK -> (new KeySpeakCmd()).execute(player, mce, args);
+
             /* FALLTHROUGH */
-            default:
-                mce.getMessage().addReaction(Emoji.GREY_QUESTION.get_char_code());
+            case UNKNOWN, default -> mce.getMessage().addReaction(Emoji.GREY_QUESTION.get_char_code());
         }
 
     }
