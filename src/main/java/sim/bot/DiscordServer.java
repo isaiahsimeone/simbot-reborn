@@ -28,9 +28,6 @@ public class DiscordServer {
         public void run() {
             if (player.is_initialised() && player.is_inactive()) {
                 player.write_verbose_message("I am inactive. Goodbye");
-                player.get_track_scheduler().dump_queue();
-                player.get_track_scheduler().next_track();
-                player.get_player().setPaused(false);
                 player.destroy();
             }
         }
@@ -60,9 +57,6 @@ public class DiscordServer {
                 return ;
 
             player.write_verbose_message("Someone just moved me or they called stop. So, I am destroying myself");
-            player.get_track_scheduler().dump_queue();
-            player.get_track_scheduler().next_track();
-            player.get_player().setPaused(false);
             player.destroy();
         });
 

@@ -10,9 +10,6 @@ public class StopCmd implements Executable {
     @Override
     public void execute(SimPlayer player, MessageCreateEvent mce, ArrayList<String> args) {
         if (player.is_initialised()) {
-            player.get_track_scheduler().dump_queue();
-            player.get_track_scheduler().next_track(); // Drop current track
-            player.get_player().setPaused(false);
             player.destroy();
             mce.getMessage().addReaction(Emoji.WAVE.get_char_code());
         }

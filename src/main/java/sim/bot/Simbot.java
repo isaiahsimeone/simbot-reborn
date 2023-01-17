@@ -1,7 +1,6 @@
 package sim.bot;
 
 import org.javacord.api.*;
-import org.javacord.api.entity.user.UserStatus;
 
 import java.util.HashMap;
 
@@ -18,10 +17,10 @@ public class Simbot {
 
         DiscordApi d_api = new DiscordApiBuilder().setToken(api_token).setAllIntents().login().join();
 
+        System.out.println(d_api.getStatus());
+
         // Hopefully Keyanuish will notice this...
         d_api.updateActivity("-keyspeak");
-
-        System.out.println(d_api.getStatus());
 
         HashMap<Integer, DiscordServer> server_map = new HashMap<>();
 

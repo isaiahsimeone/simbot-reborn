@@ -66,7 +66,11 @@ public class SimPlayer {
         return is_init;
     }
 
-    public void destroy() {;
+    public void destroy() {
+        sched.dump_queue();
+        sched.next_track();
+        player.setPaused(false);
+
         is_init = false;
         if (voice_channel != null)
             voice_channel.disconnect();
@@ -92,10 +96,6 @@ public class SimPlayer {
 
     public boolean in_master_mode() {
         return in_master_mode;
-    }
-
-    public boolean debug_on() {
-        return debug_on;
     }
 
     public boolean is_inactive() {

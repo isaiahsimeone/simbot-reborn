@@ -1,6 +1,5 @@
 package sim.bot.parse;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -24,8 +23,7 @@ public class Command {
     }
 
     public static Command parse_command(String cmd) {
-        ArrayList<String> args = new ArrayList<>(8);
-        StringBuilder command_specifier = new StringBuilder();
+        ArrayList<String> args = new ArrayList<>();
 
         /* Replace multiple spaces with single space */
         String command = cmd.trim().replaceAll(" +", " ");
