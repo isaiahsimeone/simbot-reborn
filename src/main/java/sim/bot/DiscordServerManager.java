@@ -1,7 +1,10 @@
-package sim.bot.audio;
+package sim.bot;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.source.soundcloud.SoundCloudAudioSourceManager;
+import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.audio.AudioConnection;
 import org.javacord.api.audio.AudioSource;
@@ -9,8 +12,9 @@ import org.javacord.api.entity.channel.ServerVoiceChannel;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.server.Server;
+import sim.bot.audio.TrackScheduler;
 
-public class SimPlayer {
+public class DiscordServerManager {
     private final AudioPlayerManager manager;
     private final AudioPlayer player;
     private final AudioSource source;
@@ -25,9 +29,14 @@ public class SimPlayer {
     private Message debugging_output_field;
     private String debug_content;
 
-    public SimPlayer(DiscordApi api, AudioPlayerManager manager, Server server) {
+    public DiscordServerManager(DiscordApi api, Server server) {
         this.server = server;
-        this.manager = manager;
+        this.manager = new DefaultAudioPlayerManager();
+        this.manager.registerSourceManager(new YoutubeAudioSourceManager());
+        this.manager.registerSourceManager(SoundCloudAudioSourceManager.createDefault());
+
+        // Load permissions from database into hashmap (userid -> permission value)
+
         this.player = manager.createPlayer();
         this.source = new sim.bot.audio.AudioSource(api, player);
         this.sched = new TrackScheduler(player);
@@ -44,6 +53,7 @@ public class SimPlayer {
             System.err.println("Server " + server.getName() + " Has no text channels. server_text_channel is null");
         else
             this.server_text_channel = server.getTextChannels().get(0);
+
     }
 
     public boolean is_initialised() {
@@ -125,5 +135,4 @@ public class SimPlayer {
         }
         System.err.println(message);
     }
-
 }

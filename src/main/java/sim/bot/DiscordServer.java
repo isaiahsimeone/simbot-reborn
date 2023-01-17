@@ -1,13 +1,8 @@
 package sim.bot;
 
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.source.soundcloud.SoundCloudAudioSourceManager;
-import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.event.message.MessageCreateEvent;
-import sim.bot.audio.SimPlayer;
 import sim.bot.command.*;
 import sim.bot.parse.Command;
 import sim.bot.util.Emoji;
@@ -19,8 +14,9 @@ import java.util.TimerTask;
 
 public class DiscordServer {
 
-    private final SimPlayer player;
+    private final DiscordServerManager player;
     private Server server;
+
     private final long SIMBOT_ID = 881509848838180884L;
 
     class InactivityTimeout extends TimerTask {
@@ -35,9 +31,7 @@ public class DiscordServer {
 
     public DiscordServer(MessageCreateEvent mce, DiscordApi api) {
         this.server = mce.getServer().get();
-        AudioPlayerManager player_manager = new DefaultAudioPlayerManager();
-        register_sources(player_manager);
-        this.player = new SimPlayer(api, player_manager, this.server);
+        this.player = new DiscordServerManager(api, this.server);
 
         /*
          * Javacord has a bug where if the bot is kicked/moved, it will break audio playback.
@@ -76,7 +70,7 @@ public class DiscordServer {
 
         /* React if someone mentions Keyanuish */
         if (message.contains("<@70762467227078656>"))
-            mce.getMessage().addReaction(Emoji.UNAMUSED.get_char_code());
+            mce.getMessage().addReaction(Emoji.UNAMUSED.getCharCode());
 
         if (!message.startsWith("-"))
             return ;
@@ -151,7 +145,7 @@ public class DiscordServer {
             case UNKNOWN:
             /* FALLTHROUGH */
             default:
-                mce.getMessage().addReaction(Emoji.GREY_QUESTION.get_char_code());
+                mce.getMessage().addReaction(Emoji.GREY_QUESTION.getCharCode());
         }
 
     }
@@ -163,13 +157,4 @@ public class DiscordServer {
     private boolean author_is_connected_to_vc(MessageCreateEvent mce) {
         return mce.getMessageAuthor().getConnectedVoiceChannel().isPresent();
     }
-
-    /*
-     * Register soundcloud and YouTube as audio sources
-     */
-    private static void register_sources(AudioPlayerManager manager) {
-        manager.registerSourceManager(new YoutubeAudioSourceManager());
-        manager.registerSourceManager(SoundCloudAudioSourceManager.createDefault());
-    }
-
 }
