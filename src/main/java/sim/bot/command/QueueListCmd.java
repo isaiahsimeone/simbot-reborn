@@ -2,7 +2,7 @@ package sim.bot.command;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import org.javacord.api.event.message.MessageCreateEvent;
-import sim.bot.audio.SimPlayer;
+import sim.bot.DiscordServerManager;
 
 import java.util.ArrayList;
 import java.util.Queue;
@@ -10,12 +10,12 @@ import java.util.Queue;
 public class QueueListCmd implements Executable {
 
     @Override
-    public void execute(SimPlayer player, MessageCreateEvent mce, ArrayList<String> args) {
-        Queue<AudioTrack> queue = player.get_track_scheduler().get_track_queue();
+    public void execute(DiscordServerManager manager, MessageCreateEvent mce, ArrayList<String> args) {
+        Queue<AudioTrack> queue = manager.get_track_scheduler().get_track_queue();
 
         StringBuilder msg = new StringBuilder();
 
-        if (queue.size() == 0 && player.get_player().getPlayingTrack() == null) {
+        if (queue.size() == 0 && manager.get_player().getPlayingTrack() == null) {
             msg.append("Nothing in queue");
             mce.getChannel().sendMessage(msg.toString());
             return ;
@@ -24,7 +24,7 @@ public class QueueListCmd implements Executable {
         msg.append("```");
 
         /* Song playing now */
-        msg.append("Now Playing: ").append(player.get_player().getPlayingTrack().getInfo().title).append("\n");
+        msg.append("Now Playing: ").append(manager.get_player().getPlayingTrack().getInfo().title).append("\n");
 
         int idx = 0;
         for (AudioTrack track : queue) {

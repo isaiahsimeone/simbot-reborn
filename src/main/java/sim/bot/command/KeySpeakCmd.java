@@ -1,11 +1,14 @@
 package sim.bot.command;
 
 import org.javacord.api.event.message.MessageCreateEvent;
-import sim.bot.audio.SimPlayer;
+import sim.bot.DiscordServerManager;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+/*
+ * Reply with something nihilistic that reads like something Key would say
+ */
 public class KeySpeakCmd implements Executable {
     private static final ArrayList<String> KEY_SAYINGS = new ArrayList<>() {{
         add("Life is ultimately meaningless, and our existence is nothing more than a fleeting moment in an infinite, uncaring universe.");
@@ -30,9 +33,9 @@ public class KeySpeakCmd implements Executable {
     }};
 
     @Override
-    public void execute(SimPlayer player, MessageCreateEvent mce, ArrayList<String> args) {
+    public void execute(DiscordServerManager manager, MessageCreateEvent mce, ArrayList<String> args) {
         int index = (new Random()).nextInt(0, KEY_SAYINGS.size() + 1);
-        mce.getMessage().reply(KEY_SAYINGS.get(index));
+        mce.getMessage().reply("\"*" + KEY_SAYINGS.get(index) + "\"* - ***(Key, circa 2020)***");
     }
 
     @Override
