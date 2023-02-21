@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class RewindCmd implements Executable {
     @Override
     public void execute(DiscordServerManager manager, MessageCreateEvent mce, ArrayList<String> args) {
-        long seek_size = (args.size() >= 1 ? Integer.parseInt(args.get(0)) : 5000);
+        long seek_size = (args.size() >= 1 ? Integer.parseInt(args.get(0)) * 1000L : 5000);
 
         AudioTrack playing = manager.get_player().getPlayingTrack();
 
@@ -27,10 +27,5 @@ public class RewindCmd implements Executable {
         manager.get_player().getPlayingTrack().setPosition(set_position);
 
         mce.getMessage().addReaction(Emoji.REWIND.getCharCode());
-    }
-
-    @Override
-    public String help() {
-        return "- [rewind | rw]";
     }
 }

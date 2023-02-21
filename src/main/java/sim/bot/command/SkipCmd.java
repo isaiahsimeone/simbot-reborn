@@ -14,9 +14,4 @@ public class SkipCmd implements Executable {
             mce.getMessage().addReaction(Emoji.ARROW_RIGHT.getCharCode());
         }
     }
-
-    @Override
-    public String help() {
-        return "- [skip | next | n | thissongshit | nextsong]";
-    }
 }

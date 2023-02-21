@@ -37,9 +37,4 @@ public class KeySpeakCmd implements Executable {
         int index = (new Random()).nextInt(0, KEY_SAYINGS.size() + 1);
         mce.getMessage().reply("\"*" + KEY_SAYINGS.get(index) + "\"* - ***(Key, circa 2020)***");
     }
-
-    @Override
-    public String help() {
-        return "- [keyspeak | keyemulate | keysimulate | whatissomethingkeywouldsay]";
-    }
 }

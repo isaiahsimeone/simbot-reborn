@@ -14,6 +14,13 @@ import java.util.ArrayList;
 public class PlayCmd implements Executable {
 
     public void execute(DiscordServerManager manager, MessageCreateEvent mce, ArrayList<String> args) {
+        // Unpause playback if it is paused and no argument is specified
+        if (args.size() == 0 && manager.get_player().isPaused()) {
+            manager.get_player().setPaused(false);
+            mce.getMessage().addReaction(Emoji.RESUME.getCharCode());
+            return ;
+        }
+
         String song_name_raw = String.join(" ", args);
 
         String song_url = YoutubeSearchResolver.resolve_if_required(song_name_raw);
@@ -58,9 +65,5 @@ public class PlayCmd implements Executable {
                 mce.getMessage().addReaction(Emoji.RED_X.getCharCode());
             }
         });
-    }
-
-    public String help() {
-        return "- [play | pla | pl | p] Song name/URL";
     }
 }

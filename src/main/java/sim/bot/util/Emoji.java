@@ -15,8 +15,8 @@ public enum Emoji {
     UNAMUSED("\uD83D\uDE12"),
     PAUSE("\u23F8\uFE0F"),
     RESUME("\u25B6\uFE0F"),
-    FREE("\uD83C\uDD93");
-
+    FREE("\uD83C\uDD93"),
+    SHUFFLE("\uD83D\uDD00");
     private final String charcode;
 
     Emoji(String charcode) {

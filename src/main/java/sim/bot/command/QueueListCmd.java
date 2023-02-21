@@ -39,9 +39,4 @@ public class QueueListCmd implements Executable {
 
         mce.getChannel().sendMessage(msg.toString());
     }
-
-    @Override
-    public String help() {
-        return "- [queuelist | ql | qlist | list]";
-    }
 }

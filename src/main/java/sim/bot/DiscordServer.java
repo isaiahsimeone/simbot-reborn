@@ -44,22 +44,24 @@ public class DiscordServer {
 
             player.write_verbose_message(event.getUser() + " left a voice channel");
 
+            /* Reduce self-referential log spam */
+            try {wait(750);} catch (Exception ignored) {}
+
             /*
              * Disregard if someone other than the bot is leaving.
              */
             if (event.getUser().getId() != SIMBOT_ID)
                 return ;
 
-            player.write_verbose_message("Someone just moved me or they called stop. So, I am destroying myself");
+            player.write_verbose_message("Someone just moved me or they called stop. So, I am disconnecting");
             player.destroy();
         });
 
         /* Inactivity timer */
         Timer timer = new Timer();
         TimerTask task = new InactivityTimeout();
-        // Check every 45 minutes
-        timer.schedule(task, 0, 1000 * 60 * 45);
-
+        // Check every 120 minutes
+        timer.schedule(task, 0, 1000 * 60 * 120);
     }
 
     /*
@@ -67,10 +69,6 @@ public class DiscordServer {
      */
     public void process_message(MessageCreateEvent mce) {
         String message = mce.getMessageContent();
-
-        /* React if someone mentions Keyanuish */
-        if (message.contains("<@70762467227078656>"))
-            mce.getMessage().addReaction(Emoji.UNAMUSED.getCharCode());
 
         if (!message.startsWith("-"))
             return ;
@@ -141,6 +139,15 @@ public class DiscordServer {
                 break;
             case KEYSPEAK:
                 (new KeySpeakCmd()).execute(player, mce, args);
+                break;
+            case DUMPQUEUE:
+                (new DumpQueueCmd()).execute(player, mce, args);
+                break;
+            case HELP:
+                (new HelpCmd()).execute(player, mce, args);
+                break;
+            case SHUFFLE:
+                (new ShuffleCmd()).execute(player, mce, args);
                 break;
             case UNKNOWN:
             /* FALLTHROUGH */

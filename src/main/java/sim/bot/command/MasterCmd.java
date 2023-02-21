@@ -21,9 +21,4 @@ public class MasterCmd implements Executable {
             mce.getMessage().addReaction(Emoji.BOWING.getCharCode());
         manager.toggle_master_mode();
     }
-
-    @Override
-    public String help() {
-        return "- [iamyourmaster | iaym]";
-    }
 }

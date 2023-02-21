@@ -6,11 +6,10 @@ import sim.bot.util.Emoji;
 
 import java.util.ArrayList;
 
-public class DebugCmd implements Executable {
-
+public class ShuffleCmd implements Executable {
     @Override
     public void execute(DiscordServerManager manager, MessageCreateEvent mce, ArrayList<String> args) {
-        manager.toggle_debugging();
-        mce.getMessage().addReaction(Emoji.THUMBS_UP.getCharCode());
+        manager.get_track_scheduler().shuffle();
+        mce.getMessage().addReaction(Emoji.SHUFFLE.getCharCode());
     }
 }

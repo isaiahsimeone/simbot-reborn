@@ -5,8 +5,7 @@ import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class TrackScheduler extends AudioEventAdapter {
 
@@ -35,6 +34,13 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public void dump_queue() {
         queue.clear();
+    }
+
+    public void shuffle() {
+        List<AudioTrack> tmp = new ArrayList<>(queue);
+        Collections.shuffle(tmp);
+        queue.clear();
+        queue.addAll(tmp);
     }
 
     public Queue<AudioTrack> get_track_queue() {

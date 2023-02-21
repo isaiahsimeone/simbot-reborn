@@ -35,7 +35,7 @@ public class DiscordServerManager {
         this.manager.registerSourceManager(new YoutubeAudioSourceManager());
         this.manager.registerSourceManager(SoundCloudAudioSourceManager.createDefault());
 
-        // Load permissions from database into hashmap (userid -> permission value)
+        // Load permissions from database into hashmap 
 
         this.player = manager.createPlayer();
         this.source = new sim.bot.audio.AudioSource(api, player);

@@ -8,5 +8,4 @@ import java.util.ArrayList;
 
 public interface Executable {
     void execute(DiscordServerManager manager, MessageCreateEvent mce, ArrayList<String> args);
-    String help();
 }

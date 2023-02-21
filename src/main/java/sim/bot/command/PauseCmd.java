@@ -15,9 +15,4 @@ public class PauseCmd implements Executable {
         String reaction = (is_paused ? Emoji.RESUME.getCharCode() : Emoji.PAUSE.getCharCode());
         mce.getMessage().addReaction(reaction);
     }
-
-    @Override
-    public String help() {
-        return "- [pause | hold | wait]";
-    }
 }
