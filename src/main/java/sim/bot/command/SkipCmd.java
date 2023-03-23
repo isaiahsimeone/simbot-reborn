@@ -6,6 +6,10 @@ import sim.bot.util.Emoji;
 
 import java.util.ArrayList;
 
+/**
+ * The skip command will invoke the track scheduler to play the next song in the track
+ * usage: -skip
+ */
 public class SkipCmd implements Executable {
     @Override
     public void execute(DiscordServerManager manager, MessageCreateEvent mce, ArrayList<String> args) {

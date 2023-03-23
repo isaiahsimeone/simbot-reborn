@@ -7,6 +7,11 @@ import sim.bot.util.Emoji;
 
 import java.util.ArrayList;
 
+/**
+ * The fast-forward command allows a currently playing track to be sought forward through. An optional argument
+ * may be specified which indicates the amount to seek through the track by (in seconds)
+ * usage: -ff [time in seconds]
+ */
 public class FastForwardCmd implements Executable {
     @Override
     public void execute(DiscordServerManager manager, MessageCreateEvent mce, ArrayList<String> args) {

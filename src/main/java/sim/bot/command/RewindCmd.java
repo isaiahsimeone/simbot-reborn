@@ -7,6 +7,11 @@ import sim.bot.util.Emoji;
 
 import java.util.ArrayList;
 
+/**
+ * The rewind command allows a currently playing track to be seeked backward through. An optional argument
+ * may be specified which indicates the amount to seek back through the track by (in seconds)
+ * usage: -rw [time in seconds]
+ */
 public class RewindCmd implements Executable {
     @Override
     public void execute(DiscordServerManager manager, MessageCreateEvent mce, ArrayList<String> args) {

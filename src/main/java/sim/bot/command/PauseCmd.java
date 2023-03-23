@@ -6,6 +6,10 @@ import sim.bot.util.Emoji;
 
 import java.util.ArrayList;
 
+/**
+ * The pause command stops audio playback if it is playing, or resumes playback if it is already paused
+ * usage: -pause
+ */
 public class PauseCmd implements Executable {
     @Override
     public void execute(DiscordServerManager manager, MessageCreateEvent mce, ArrayList<String> args) {

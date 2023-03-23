@@ -13,6 +13,9 @@ import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.server.Server;
 import sim.bot.audio.TrackScheduler;
+import sim.bot.database.DBAccessor;
+
+import java.sql.Connection;
 
 public class DiscordServerManager {
     private final AudioPlayerManager manager;
@@ -28,16 +31,16 @@ public class DiscordServerManager {
     private boolean debug_on;
     private Message debugging_output_field;
     private String debug_content;
+    private DBAccessor accessor;
 
-    public DiscordServerManager(DiscordApi api, Server server) {
+    public DiscordServerManager(DiscordApi api, Server server, DBAccessor accessor) {
         this.server = server;
         this.manager = new DefaultAudioPlayerManager();
         this.manager.registerSourceManager(new YoutubeAudioSourceManager());
         this.manager.registerSourceManager(SoundCloudAudioSourceManager.createDefault());
 
-        // Load permissions from database into hashmap 
-
         this.player = manager.createPlayer();
+        this.accessor = accessor;
         this.source = new sim.bot.audio.AudioSource(api, player);
         this.sched = new TrackScheduler(player);
         player.addListener(sched);
@@ -56,10 +59,19 @@ public class DiscordServerManager {
 
     }
 
+    /**
+     * Determines whether the bot has been initialised for voice connection
+     * @return whether the bot has been initialised
+     */
     public boolean is_initialised() {
         return is_init;
     }
 
+    /**
+     * Prepares and connects the bot to the specified Discord server voice channel
+     * @param vc - The voice channel to connect to
+     * @return A boolean indicating whether initialisation was successful
+     */
     public boolean initialise(ServerVoiceChannel vc) {
         write_verbose_message("Attempting to connect to VC: " + vc.getName() + " (" + vc.getBitrate()
                 + ") with occupants " + vc.getConnectedUsers());
@@ -76,6 +88,10 @@ public class DiscordServerManager {
         return is_init;
     }
 
+    /**
+     * Destroys the bot, if it is connected to a voice channel, it will be disconnected,
+     * if there are songs in the queue, they will be dumped
+     */
     public void destroy() {
         sched.dump_queue();
         sched.next_track();
@@ -88,30 +104,72 @@ public class DiscordServerManager {
         write_verbose_message("Player has been destroyed.");
     }
 
+    /**
+     * Return the AudioPlayer object for this discord server
+     * @return The AudioPlayer object for this discord server
+     */
     public AudioPlayer get_player() {
         return player;
     }
 
+    /**
+     * Return the AudioPlayerManager for this discord server
+     * @return The AudioPlayerManager for this discord server
+     */
     public AudioPlayerManager get_audio_manager() {
         return manager;
     }
 
+    /**
+     * Return the TrackScheduler for this discord server
+     * @return The TrackScheduler for this discord server
+     */
     public TrackScheduler get_track_scheduler() {
         return sched;
     }
 
+    /**
+     * Return the Database accessor object for this discord server
+     * @return The Database accessor object for this discord server
+     */
+    public DBAccessor get_db_accessor() {
+        return accessor;
+    }
+
+    /**
+     * Enable master mode if it is disabled, disable otherwise
+     */
     public void toggle_master_mode() {
         in_master_mode = !in_master_mode;
     }
 
+    /**
+     * Determine whether the bot is operating in master mode
+     * @return A boolean indicating whether master mode is enabled or not
+     */
     public boolean in_master_mode() {
         return in_master_mode;
     }
 
+    /**
+     * Determines whether the bot is being actively used for audio playback
+     * @return A boolean indicating activity
+     */
     public boolean is_inactive() {
         return get_track_scheduler().queue.size() == 0 && get_player().getPlayingTrack() == null;
     }
 
+    /**
+     * Determines whether the SQL Database connection accessor is available for use
+     */
+    public boolean has_db_accessor() {
+        return accessor != null;
+    }
+
+    /**
+     * Enable verbose debugging to the discord server text channel, disable it if it is
+     * already enabled
+     */
     public void toggle_debugging() {
         if (server_text_channel == null)
             System.err.println("Unable to enable debugging. No text channel present");
@@ -126,6 +184,11 @@ public class DiscordServerManager {
         this.debug_on = !this.debug_on;
     }
 
+    /**
+     * Write the corresponding message to the discord text channel debugging frame (if in master mode)
+     * and always write to the local bot log
+     * @param message
+     */
     public void write_verbose_message(String message) {
         if (debug_on && server_text_channel != null) {
             // Remove last 3 backticks

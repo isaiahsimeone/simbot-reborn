@@ -6,6 +6,11 @@ import sim.bot.util.Emoji;
 
 import java.util.ArrayList;
 
+/**
+ * The Debug command allows for the enabling/disabling of verbose message logging to the discord
+ * server specified.
+ * Usage:   -debug
+ */
 public class DebugCmd implements Executable {
 
     @Override

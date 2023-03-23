@@ -14,9 +14,10 @@ repositories {
 
 
 dependencies {
-    implementation 'com.github.isaiahsimeone.Javacord:javacord:-SNAPSHOT'
-    implementation 'com.github.walkyst:lavaplayer-fork:1.3.98.3'
-   // implementation 'org.javacord:javacord:3.5.0'
+    implementation 'org.javacord:javacord:3.7.0'
+    //implementation 'com.github.isaiahsimeone.Javacord:javacord:a03f864100'
+    implementation 'com.github.walkyst:lavaplayer-fork:1.3.99.2'
     implementation 'org.jsoup:jsoup:1.15.2'
     implementation 'org.slf4j:slf4j-simple:2.0.0'
+    implementation 'mysql:mysql-connector-java:8.0.27'
 }

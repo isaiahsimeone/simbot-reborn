@@ -6,6 +6,11 @@ import sim.bot.parse.CommandType;
 
 import java.util.ArrayList;
 
+/**
+ * The Help command displays a printout of the commands that the bot is aware of. An optional argument
+ * may be specified (any command name or alias) which will provide more granular information for that command
+ * usage: -help [command|alias]
+ */
 public class HelpCmd implements Executable {
     @Override
     public void execute(DiscordServerManager manager, MessageCreateEvent mce, ArrayList<String> args) {

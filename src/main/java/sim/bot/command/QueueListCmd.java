@@ -7,6 +7,11 @@ import sim.bot.DiscordServerManager;
 import java.util.ArrayList;
 import java.util.Queue;
 
+/**
+ * The queue list command lists out the songs currently in the queue of songs to play. This information
+ * is printed in the same text chat that the command was issued.
+ * usage: -ql
+ */
 public class QueueListCmd implements Executable {
 
     @Override

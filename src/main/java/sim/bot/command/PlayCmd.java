@@ -11,6 +11,12 @@ import sim.bot.util.YoutubeSearchResolver;
 
 import java.util.ArrayList;
 
+/**
+ * The play command will attempt to play the song specified by name or by URL. If a song name
+ * is provided, an attempt will be made to resolve this to a YouTube video URL. One argument is taken,
+ * that is the song name or URL
+ * usage: -play [song name|song URL]
+ */
 public class PlayCmd implements Executable {
 
     public void execute(DiscordServerManager manager, MessageCreateEvent mce, ArrayList<String> args) {
@@ -36,6 +42,10 @@ public class PlayCmd implements Executable {
             @Override
             public void trackLoaded(AudioTrack track) {
                 manager.get_track_scheduler().enqueue(track);
+
+                if (manager.has_db_accessor())
+                    manager.get_db_accessor().insert_play_event(track, mce);
+
                 manager.write_verbose_message("Track: '" + track.getInfo().title + "' enqueued");
                 /* React to message */
                 mce.getMessage().addReaction(Emoji.THUMBS_UP.getCharCode());
@@ -43,8 +53,11 @@ public class PlayCmd implements Executable {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                for (AudioTrack track : playlist.getTracks())
+                for (AudioTrack track : playlist.getTracks()) {
+                    if (manager.has_db_accessor())
+                        manager.get_db_accessor().insert_play_event(track, mce);
                     manager.get_track_scheduler().enqueue(track);
+                }
                 manager.write_verbose_message("Loaded playlist with " + playlist.getTracks().size() + " tracks");
                 /* React to message */
                 mce.getMessage().addReaction(Emoji.THUMBS_UP.getCharCode());

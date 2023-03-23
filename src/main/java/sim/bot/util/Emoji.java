@@ -16,13 +16,22 @@ public enum Emoji {
     PAUSE("\u23F8\uFE0F"),
     RESUME("\u25B6\uFE0F"),
     FREE("\uD83C\uDD93"),
+    SCROLL("\uD83D\uDCDC"),
     SHUFFLE("\uD83D\uDD00");
     private final String charcode;
 
+    /**
+     * Construct a new Emoji object with the specified character code
+     * @param charcode
+     */
     Emoji(String charcode) {
         this.charcode = charcode;
     }
 
+    /**
+     * Return the character code of this emoji
+     * @return The character code of this emoji
+     */
     public String getCharCode() {
         return charcode;
     }

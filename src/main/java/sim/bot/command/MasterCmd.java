@@ -6,6 +6,10 @@ import sim.bot.util.Emoji;
 
 import java.util.ArrayList;
 
+/**
+ * When the bot is in master mode, it will accept commands only from the bots creator
+ * usage: -iamyourmaster
+ */
 public class MasterCmd implements Executable {
     @Override
     public void execute(DiscordServerManager manager, MessageCreateEvent mce, ArrayList<String> args) {

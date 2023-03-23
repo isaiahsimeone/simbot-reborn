@@ -21,18 +21,40 @@ public enum CommandType {
     SHUFFLE(13, "Shuffle", "Shuffle all songs in the queue"),
     HELP(14, "Help", "Display a list of commands that Simbot knows, or list more information about a specified command"),
     DUMPQUEUE(15, "DumpQueue", "Remove all songs from the queue. Does not remove any currently playing song"),
+    RESTORE(16, "Restore", "If the bot was disconnected with a non-empty queue (deliberately), that queue will be restored"),
     UNKNOWN(-1, "Unknown", "Unknown Command");
 
+    /**
+     * The ID of the command
+     */
     private final int id;
+
+    /**
+     * The human-readable name of the command
+     */
     private final String name;
+
+    /**
+     * A description of what the command does
+     */
     private final String description;
 
+    /**
+     * Constructs a new CommandType object
+     * @param id - The ID of the command
+     * @param name - The human-readable name of the command
+     * @param description - A description of what the command does
+     */
     CommandType(int id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
 
+    /**
+     * A map which allows for the conversion of command names and their
+     * aliases to be converted to a command identifier
+     */
     static final HashMap<String, Integer> aliases = new HashMap<>() {{
             /* Play */
             put("play", PLAY.id);
@@ -84,6 +106,7 @@ public enum CommandType {
             put("iamyourmaster", MASTER.id);
             put("iaym", MASTER.id);
             put("mastermode", MASTER.id);
+            put("master", MASTER.id);
             /* Debugger */
             put("debug", DEBUG.id);
             put("sdb", DEBUG.id);
@@ -111,8 +134,19 @@ public enum CommandType {
             put("help", HELP.id);
             put("?", HELP.id);
             put("helpme", HELP.id);
+            /* Restore */
+            put("restore", RESTORE.id);
+            put("rstr", RESTORE.id);
+            put("revert", RESTORE.id);
     }};
 
+    /**
+     * If a supplied string is found to be an alias of a known bot
+     * command, its representative (or leader) name will be returned
+     * e.g. get_normalised_name("ql") returns "QueueList"
+     * @param command - The string containing the command in question
+     * @return - The normalised command name, or "Unknown" if the alias is unknown
+     */
      public static String get_normalised_name(String command) {
         // lookup in map
         int id = aliases.get(command);
@@ -124,6 +158,13 @@ public enum CommandType {
         return "Unknown";
     }
 
+    /**
+     * Return the description of the specified command, or unknown
+     * if the supplied string is not a known alias
+     * @param command - The string potentially containing a known command
+     * @return The description of the command, or "Unknown" if the supplied
+     *          string is not an alias
+     */
     public static String get_description(String command) {
         // lookup in map
         int id = aliases.get(command);
@@ -135,6 +176,13 @@ public enum CommandType {
         return "Unknown";
     }
 
+    /**
+     * Performs the same task as get_description(), but uses an
+     * already normalised name to perform a lookup
+     * @param normalised - The normalised command string to fetch the description of
+     * @return - The description of the command, or "Unknown" if it doesn't exist
+     * (which can not happen)
+     */
     public static String get_description_from_normalised(String normalised) {
          for (CommandType ct : values())
              if (Objects.equals(ct.name, normalised))
@@ -142,6 +190,11 @@ public enum CommandType {
          return "Unknown";
     }
 
+    /**
+     * Return an ArrayList of strings containing all the commands that the aliases
+     * map was initialised with. The normalised name of each command is returned.
+     * @return - A list of command names in their normalised form
+     */
     public static ArrayList<String> get_all_commands() {
          ArrayList<String> commands = new ArrayList<>(values().length);
 
@@ -151,7 +204,12 @@ public enum CommandType {
          return commands;
     }
 
-
+    /**
+     * Return the type of the command, if the supplied string is a command
+     * @param command - A string potentially representing a command
+     * @return A CommandType object describing what type of command was contained
+     * in the string
+     */
     static CommandType get_command_type(String command) {
         String normalised = command.toLowerCase();
 
@@ -161,6 +219,12 @@ public enum CommandType {
         return UNKNOWN;
     }
 
+    /**
+     * Return all aliases for a given target string
+     * @param target A string potentially containing a command
+     * @return An ArrayList containing all aliases of the command specified by
+     * the provided string. Or, null if the string is an unknown command
+     */
     public static ArrayList<String> get_aliases(String target) {
         CommandType cmd = get_command_type(target);
 

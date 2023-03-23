@@ -6,8 +6,10 @@ import sim.bot.DiscordServerManager;
 import java.util.ArrayList;
 import java.util.Random;
 
-/*
- * Reply with something nihilistic that reads like something Key would say
+/**
+ * The Key Speak command replies to the issuer of the command with something nihilistic that reads
+ * like something Keyanuish would say
+ * usage: -keyspeak
  */
 public class KeySpeakCmd implements Executable {
     private static final ArrayList<String> KEY_SAYINGS = new ArrayList<>() {{

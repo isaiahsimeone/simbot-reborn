@@ -1,9 +1,14 @@
 package sim.bot;
 
 import org.javacord.api.*;
+import sim.bot.database.DBAccessor;
 
 import java.util.HashMap;
 
+/**
+ * The Simbot class is the first class invoked on bot startup. All discord text-channel originate
+ * from this class, and are delivered to the relevant DiscordServerManager.
+ */
 public class Simbot {
 
     /*
@@ -19,8 +24,13 @@ public class Simbot {
 
         System.out.println(d_api.getStatus());
 
-        // Hopefully Keyanuish will notice this...
-        d_api.updateActivity("-keyspeak");
+        DBAccessor accessor = null;
+        try {
+            accessor = new DBAccessor();
+        } catch (Exception e) {
+            System.err.println("Unable to initiate a connection with the MySQL database.\n" + e + "\n\nContinuing");
+        }
+        DBAccessor finalAccessor = accessor;
 
         HashMap<Integer, DiscordServer> server_map = new HashMap<>();
 
@@ -28,7 +38,7 @@ public class Simbot {
             int server_uid = message.getServer().hashCode();
 
             /* We have not encountered this discord server in the current session. Map the server */
-            server_map.putIfAbsent(server_uid, new DiscordServer(message, d_api));
+            server_map.putIfAbsent(server_uid, new DiscordServer(message, d_api, finalAccessor));
 
             /* Pass message to the discord server handler from which the message originated */
             server_map.get(server_uid).process_message(message);
