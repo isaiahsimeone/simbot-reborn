@@ -66,11 +66,6 @@ public class DiscordServer {
             if (event.getServer() != server)
                 return ;
 
-            serverManager.write_verbose_message(event.getUser() + " left a voice channel");
-
-            /* Reduce self-referential log spam */
-            try {wait(750);} catch (Exception ignored) {}
-
             /*
              * Disregard if someone other than the bot is leaving.
              */
@@ -84,8 +79,8 @@ public class DiscordServer {
         /* Inactivity timer */
         Timer timer = new Timer();
         TimerTask task = new InactivityTimeout();
-        // Check every 120 minutes
-        timer.schedule(task, 0, 1000 * 60 * 120);
+        // Check every 45 minutes
+        timer.schedule(task, 0, 1000 * 60 * 45);
     }
 
     /**
